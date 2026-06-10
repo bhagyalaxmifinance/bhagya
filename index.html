@@ -1,0 +1,1972 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bhagya Laxmi Motors - EMI Dashboard Pro</title>
+<style>
+:root {
+  --primary: #6366F1;
+  --primary-dark: #4F46E5;
+  --primary-light: #8B5CF6;
+  --success: #10B981;
+  --warning: #F59E0B;
+  --danger: #EF4444;
+  --info: #3B82F6;
+  --bg: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  --glass: rgba(255,255,255,0.7);
+  --glass-border: rgba(255,255,255,0.5);
+  --text: #1F2937;
+  --text-light: #6B7280;
+  --shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+  --shadow-hover: 0 12px 40px rgba(31, 38, 135, 0.25);
+  --radius: 16px;
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+body {
+  background: var(--bg);
+  min-height: 100vh;
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.05); opacity: 0.8; }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+  animation: fadeIn 0.6s ease-out;
+}
+
+/* Header */
+.header {
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  animation: slideUp 0.5s ease-out;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.logo h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.ist-time {
+  font-size: 0.875rem;
+  color: var(--text-light);
+  background: rgba(255,255,255,0.5);
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+}
+
+.status-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 50px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.status-badge.online {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--success);
+}
+
+.status-badge.offline {
+  background: rgba(239, 68, 68, 0.15);
+  color: var(--danger);
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  animation: pulse 2s infinite;
+}
+
+/* Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat-card {
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+  animation: slideUp 0.6s ease-out backwards;
+}
+
+.stat-card:nth-child(1) { animation-delay: 0.1s; }
+.stat-card:nth-child(2) { animation-delay: 0.2s; }
+.stat-card:nth-child(3) { animation-delay: 0.3s; }
+.stat-card:nth-child(4) { animation-delay: 0.4s; }
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
+}
+
+.stat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+}
+
+.stat-label {
+  font-size: 0.875rem;
+  color: var(--text-light);
+  font-weight: 500;
+}
+
+.stat-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+}
+
+.stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1;
+}
+
+/* Controls */
+.controls {
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow);
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  animation: slideUp 0.7s ease-out;
+}
+
+.search-box {
+  flex: 1;
+  min-width: 250px;
+  position: relative;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 0.75rem 1rem 0.75rem 2.75rem;
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.5);
+  font-size: 0.9375rem;
+  transition: var(--transition);
+}
+
+.search-box input:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: rgba(255,255,255,0.9);
+}
+
+.search-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-light);
+}
+
+.select-wrapper {
+  position: relative;
+}
+
+select, .btn {
+  padding: 0.75rem 1.25rem;
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.5);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition);
+  font-family: inherit;
+}
+
+select:focus, .btn:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: none;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  color: white;
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+}
+
+.btn-secondary {
+  background: rgba(255,255,255,0.6);
+  color: var(--text);
+}
+
+.btn-secondary:hover {
+  background: rgba(255,255,255,0.9);
+}
+
+.btn-full {
+  width: 100%;
+  justify-content: center;
+}
+
+/* Customer Cards */
+.customers-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.customer-card {
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  transition: var(--transition);
+  animation: slideUp 0.5s ease-out backwards;
+}
+
+.customer-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-hover);
+}
+
+.customer-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.25rem;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.customer-primary-info {
+  flex: 1;
+}
+
+.customer-name-link {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  cursor: pointer;
+  transition: var(--transition);
+  display: inline-block;
+  text-decoration: none;
+  margin-bottom: 0.375rem;
+}
+
+.customer-name-link:hover {
+  color: var(--primary);
+  text-decoration: underline;
+}
+
+.customer-father {
+  font-size: 14px;
+  color: var(--text-light);
+  margin-bottom: 0.375rem;
+}
+
+.customer-mobile {
+  font-size: 14px;
+  color: var(--text-light);
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.875rem;
+  border-radius: 50px;
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.badge.overdue {
+  background: rgba(239, 68, 68, 0.15);
+  color: var(--danger);
+  animation: pulse 2s infinite;
+}
+
+.badge.due-soon {
+  background: rgba(245, 158, 11, 0.15);
+  color: var(--warning);
+}
+
+.badge.paid {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--success);
+}
+
+.badge.upcoming {
+  background: rgba(59, 130, 246, 0.15);
+  color: var(--info);
+}
+
+.customer-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.icon-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid var(--glass-border);
+  background: rgba(255,255,255,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.icon-btn:hover {
+  background: rgba(255,255,255,0.9);
+  transform: scale(1.1);
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.detail-item {
+  background: rgba(255,255,255,0.5);
+  padding: 0.875rem;
+  border-radius: 12px;
+}
+
+.detail-label {
+  font-size: 0.75rem;
+  color: var(--text-light);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.25rem;
+}
+
+.detail-value {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.next-emi-badge {
+  font-size: 0.7rem;
+  padding: 0.25rem 0.625rem;
+}
+
+.progress-section {
+  margin-bottom: 1rem;
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: rgba(0,0,0,0.1);
+  border-radius: 50px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary) 0%, var(--primary-light) 100%);
+  border-radius: 50px;
+  transition: width 0.6s ease-out;
+}
+
+/* Modal */
+.modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(5px);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.3s;
+  padding: 1rem;
+}
+
+.modal.active {
+  display: flex;
+}
+
+.modal-content {
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius);
+  padding: 2rem;
+  max-width: 900px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+  animation: slideUp 0.3s;
+}
+
+.modal-content-small {
+  max-width: 500px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.modal-header h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.close-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: none;
+  background: rgba(0,0,0,0.05);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.close-btn:hover {
+  background: rgba(0,0,0,0.1);
+}
+
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--text);
+}
+
+.form-group input, .form-group select, .form-group textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.5);
+  font-size: 0.9375rem;
+  transition: var(--transition);
+}
+
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: rgba(255,255,255,0.9);
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.form-actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  margin-top: 1.5rem;
+}
+
+/* EMI Schedule Table */
+.emi-table-container {
+  overflow-x: auto;
+  margin-top: 1rem;
+}
+
+.emi-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 0.5rem;
+}
+
+.emi-table thead th {
+  text-align: left;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-light);
+  padding: 0.75rem 0.5rem;
+  font-weight: 600;
+}
+
+.emi-table tbody tr {
+  background: rgba(255,255,255,0.5);
+}
+
+.emi-table tbody tr td {
+  padding: 0.75rem 0.5rem;
+  font-size: 0.875rem;
+}
+
+.emi-table tbody tr td:first-child {
+  border-radius: 10px 0 0 10px;
+}
+
+.emi-table tbody tr td:last-child {
+  border-radius: 0 10px 10px 0;
+}
+
+.emi-table tbody tr.paid {
+  opacity: 0.6;
+}
+
+.notes-box {
+  margin-top: 1rem;
+}
+
+.notes-box textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.5);
+  font-size: 0.9375rem;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 80px;
+}
+
+.notes-box textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: rgba(255,255,255,0.9);
+}
+
+/* Toast */
+.toast-container {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.toast {
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  box-shadow: var(--shadow-hover);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 300px;
+  animation: slideUp 0.3s ease-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.toast::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+}
+
+.toast.success::before { background: var(--success); }
+.toast.error::before { background: var(--danger); }
+.toast.info::before { background: var(--info); }
+
+.toast-icon {
+  flex-shrink: 0;
+}
+
+.toast-content {
+  flex: 1;
+}
+
+.toast-title {
+  font-weight: 600;
+  font-size: 0.9375rem;
+  margin-bottom: 0.125rem;
+}
+
+.toast-message {
+  font-size: 0.8125rem;
+  color: var(--text-light);
+}
+
+/* Loading */
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(99, 102, 241, 0.2);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  background: var(--glass);
+  backdrop-filter: blur(20px);
+  border-radius: var(--radius);
+  border: 1px solid var(--glass-border);
+}
+
+.empty-state svg {
+  margin: 0 auto 1rem;
+  opacity: 0.3;
+}
+
+@media (max-width: 768px) {
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+  .header {
+    padding: 1rem;
+  }
+  .logo h1 {
+    font-size: 1.25rem;
+  }
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .controls {
+    flex-direction: column;
+  }
+  .search-box {
+    min-width: 100%;
+  }
+  .toast-container {
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+  }
+  .toast {
+    min-width: 100%;
+  }
+  .emi-table {
+    font-size: 0.75rem;
+  }
+  .emi-table thead th, .emi-table tbody tr td {
+    padding: 0.5rem 0.25rem;
+  }
+  .customer-top {
+    flex-direction: column;
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0.05);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.3);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(99, 102, 241, 0.5);
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <header class="header">
+    <div class="logo">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2L2 7L12 12L22 7L12 2Z" fill="url(#logo-gradient)"/>
+        <path d="M2 17L12 22L22 17" stroke="url(#logo-gradient)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M2 12L12 17L22 12" stroke="url(#logo-gradient)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <defs>
+          <linearGradient id="logo-gradient" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#6366F1"/>
+            <stop offset="1" stop-color="#8B5CF6"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <h1>Bhagya Laxmi Motors</h1>
+    </div>
+    <div class="header-right">
+      <div class="ist-time" id="istTime">--:--:-- IST</div>
+      <div class="status-badge offline" id="connectionStatus">
+        <span class="status-dot"></span>
+        <span>Offline</span>
+      </div>
+      <button class="btn btn-secondary" id="settingsBtn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3"></circle>
+          <path d="M12 1v6m0 6v6m8.66-15l-5.2 3M6.34 8l5.2 3m0 6l-5.2 3m11.66 0l-5.2-3"></path>
+        </svg>
+        Settings
+      </button>
+    </div>
+  </header>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-header">
+        <div class="stat-label">Total Customers</div>
+        <div class="stat-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+        </div>
+      </div>
+      <div class="stat-value" id="totalCustomers">0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-header">
+        <div class="stat-label">Total Loan Amount</div>
+        <div class="stat-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+            <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+          </svg>
+        </div>
+      </div>
+      <div class="stat-value" id="totalLoanAmount">₹0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-header">
+        <div class="stat-label">Collected</div>
+        <div class="stat-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+          </svg>
+        </div>
+      </div>
+      <div class="stat-value" id="totalCollected">₹0</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-header">
+        <div class="stat-label">Pending</div>
+        <div class="stat-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+        </div>
+      </div>
+      <div class="stat-value" id="totalPending">₹0</div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <div class="search-box">
+      <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"></circle>
+        <path d="m21 21-4.35-4.35"></path>
+      </svg>
+      <input type="text" id="searchInput" placeholder="Search by name, vehicle, mobile...">
+    </div>
+    <div class="select-wrapper">
+      <select id="sortSelect">
+        <option value="nextEmiDate">Sort: Next EMI Date</option>
+        <option value="loanAmount">Sort: Loan Amount</option>
+        <option value="dueAmount">Sort: Due Amount</option>
+      </select>
+    </div>
+    <button class="btn btn-secondary" id="clearBtn">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+      </svg>
+      Clear
+    </button>
+    <button class="btn btn-primary" id="addCustomerBtn">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 5v14M5 12h14"></path>
+      </svg>
+      Add Customer
+    </button>
+  </div>
+
+  <div class="customers-grid" id="customersGrid"></div>
+</div>
+
+<!-- Settings Modal -->
+<div class="modal" id="settingsModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Supabase Settings</h2>
+      <button class="close-btn" id="closeSettingsBtn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    <div class="form-group">
+      <label for="supabaseUrl">Supabase URL</label>
+      <input type="text" id="supabaseUrl" placeholder="https://xxxxx.supabase.co">
+    </div>
+    <div class="form-group">
+      <label for="supabaseKey">Supabase Anon Key</label>
+      <input type="text" id="supabaseKey" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...">
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-secondary" id="testConnectionBtn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+          <polyline points="22 4 12 14.01 9 11.01"></polyline>
+        </svg>
+        Test Connection
+      </button>
+      <button class="btn btn-primary" id="connectBtn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12h14M12 5l7 7-7 7"></path>
+        </svg>
+        Connect & Go Online
+      </button>
+    </div>
+    <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(59, 130, 246, 0.1); border-radius: 12px; font-size: 0.875rem;">
+      <strong>Supabase Schema:</strong><br>
+      <code style="font-size: 0.75rem; display: block; margin-top: 0.5rem; white-space: pre-wrap;">-- Run in Supabase SQL Editor:
+CREATE TABLE customers (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name TEXT NOT NULL,
+  father_name TEXT NOT NULL,
+  mobile TEXT NOT NULL,
+  address TEXT NOT NULL,
+  vehicle_name TEXT NOT NULL,
+  vehicle_number TEXT NOT NULL,
+  loan_amount NUMERIC NOT NULL,
+  loan_date DATE NOT NULL,
+  total_emis INT NOT NULL,
+  notes TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE emis (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  customer_id UUID REFERENCES customers(id) ON DELETE CASCADE,
+  emi_no INT NOT NULL,
+  due_date DATE NOT NULL,
+  amount NUMERIC NOT NULL,
+  status TEXT DEFAULT 'upcoming',
+  paid_date TIMESTAMPTZ,
+  paid_amount NUMERIC,
+  payment_mode TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE customers ENABLE ROW LEVEL SECURITY;
+ALTER TABLE emis ENABLE ROW LEVEL SECURITY;
+
+-- Allow all for anon (change for production)
+CREATE POLICY "Allow all" ON customers FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Allow all" ON emis FOR ALL USING (true) WITH CHECK (true);</code>
+    </div>
+  </div>
+</div>
+
+<!-- Customer Modal -->
+<div class="modal" id="customerModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 id="modalTitle">Add Customer</h2>
+      <button class="close-btn" id="closeCustomerBtn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    <form id="customerForm">
+      <div class="form-grid">
+        <div class="form-group">
+          <label for="customerName">Name *</label>
+          <input type="text" id="customerName" required>
+        </div>
+        <div class="form-group">
+          <label for="fatherName">Father Name *</label>
+          <input type="text" id="fatherName" required>
+        </div>
+        <div class="form-group">
+          <label for="mobile">Mobile *</label>
+          <input type="tel" id="mobile" required pattern="[0-9]{10}">
+        </div>
+        <div class="form-group">
+          <label for="vehicleName">Vehicle Name *</label>
+          <input type="text" id="vehicleName" required>
+        </div>
+        <div class="form-group">
+          <label for="vehicleNumber">Vehicle Number *</label>
+          <input type="text" id="vehicleNumber" required>
+        </div>
+        <div class="form-group">
+          <label for="loanAmount">Loan Amount *</label>
+          <input type="number" id="loanAmount" required min="1">
+        </div>
+        <div class="form-group">
+          <label for="loanDate">Loan Date *</label>
+          <input type="date" id="loanDate" required>
+        </div>
+        <div class="form-group">
+          <label for="totalEmis">Total EMIs *</label>
+          <input type="number" id="totalEmis" required min="1" max="120">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="address">Address *</label>
+        <textarea id="address" required rows="2"></textarea>
+      </div>
+      <div class="form-group">
+        <label for="customerNotes">Notes</label>
+        <textarea id="customerNotes" rows="2"></textarea>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" id="cancelCustomerBtn">Cancel</button>
+        <button type="submit" class="btn btn-primary">Save Customer</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- EMI Schedule Modal -->
+<div class="modal" id="emiScheduleModal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2 id="emiScheduleTitle">EMI Schedule</h2>
+      <button class="close-btn" id="closeEmiScheduleBtn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    <div id="emiScheduleContent"></div>
+  </div>
+</div>
+
+<!-- Payment Modal -->
+<div class="modal" id="paymentModal">
+  <div class="modal-content modal-content-small">
+    <div class="modal-header">
+      <h2>Mark EMI as Paid</h2>
+      <button class="close-btn" id="closePaymentBtn">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6L6 18M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    <form id="paymentForm">
+      <input type="hidden" id="paymentEmiId">
+      <input type="hidden" id="paymentCustomerId">
+      <div class="form-group">
+        <label for="paidAmount">Paid Amount *</label>
+        <input type="number" id="paidAmount" required min="1" step="0.01">
+      </div>
+      <div class="form-group">
+        <label for="paymentMode">Payment Mode *</label>
+        <select id="paymentMode" required>
+          <option value="">Select Mode</option>
+          <option value="Cash">Cash</option>
+          <option value="UPI">UPI</option>
+          <option value="Bank Transfer">Bank Transfer</option>
+          <option value="Cheque">Cheque</option>
+          <option value="Card">Card</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="paymentDate">Payment Date *</label>
+        <input type="date" id="paymentDate" required>
+      </div>
+      <div class="form-group">
+        <label for="paymentNotes">Notes (Optional)</label>
+        <textarea id="paymentNotes" rows="2"></textarea>
+      </div>
+      <div class="form-actions">
+        <button type="button" class="btn btn-secondary" id="cancelPaymentBtn">Cancel</button>
+        <button type="submit" class="btn btn-primary">Confirm Payment</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+<script type="module">
+/*
+Supabase Schema - Run in SQL Editor:
+
+CREATE TABLE customers (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  name TEXT NOT NULL,
+  father_name TEXT NOT NULL,
+  mobile TEXT NOT NULL,
+  address TEXT NOT NULL,
+  vehicle_name TEXT NOT NULL,
+  vehicle_number TEXT NOT NULL,
+  loan_amount NUMERIC NOT NULL,
+  loan_date DATE NOT NULL,
+  total_emis INT NOT NULL,
+  notes TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+CREATE TABLE emis (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  customer_id UUID REFERENCES customers(id) ON DELETE CASCADE,
+  emi_no INT NOT NULL,
+  due_date DATE NOT NULL,
+  amount NUMERIC NOT NULL,
+  status TEXT DEFAULT 'upcoming',
+  paid_date TIMESTAMPTZ,
+  paid_amount NUMERIC,
+  payment_mode TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+ALTER TABLE customers ENABLE ROW LEVEL SECURITY;
+ALTER TABLE emis ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Allow all" ON customers FOR ALL USING (true) WITH CHECK (true);
+CREATE POLICY "Allow all" ON emis FOR ALL USING (true) WITH CHECK (true);
+*/
+
+// State Management
+let state = {
+  customers: [],
+  emis: [],
+  supabase: null,
+  isOnline: false,
+  editingCustomerId: null,
+  viewScheduleCustomerId: null,
+  searchQuery: '',
+  sortBy: 'nextEmiDate',
+  istOffset: 5.5 * 60 * 60 * 1000
+};
+
+// Supabase Client - Lightweight inline implementation
+class SupabaseClient {
+  constructor(url, key) {
+    this.url = url;
+    this.key = key;
+  }
+
+  async request(endpoint, method = 'GET', body = null) {
+    const options = {
+      method,
+      headers: {
+        'apikey': this.key,
+        'Authorization': `Bearer ${this.key}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=representation'
+      }
+    };
+    if (body) options.body = JSON.stringify(body);
+    
+    const res = await fetch(`${this.url}/rest/v1/${endpoint}`, options);
+    if (!res.ok) throw new Error(`Supabase error: ${res.statusText}`);
+    return res.json();
+  }
+
+  from(table) {
+    return {
+      select: (cols = '*') => ({
+        execute: () => this.request(`${table}?select=${cols}`)
+      }),
+      insert: (data) => ({
+        execute: () => this.request(table, 'POST', data)
+      }),
+      update: (data) => ({
+        eq: (col, val) => ({
+          execute: () => this.request(`${table}?${col}=eq.${val}`, 'PATCH', data)
+        })
+      }),
+      delete: () => ({
+        eq: (col, val) => ({
+          execute: () => this.request(`${table}?${col}=eq.${val}`, 'DELETE')
+        })
+      })
+    };
+  }
+}
+
+// Utilities
+const $ = (sel) => document.querySelector(sel);
+const $$ = (sel) => document.querySelectorAll(sel);
+
+function formatCurrency(num) {
+  return new Intl.NumberFormat('en-IN', {
+    style: 'currency',
+    currency: 'INR',
+    maximumFractionDigits: 0
+  }).format(num);
+}
+
+function formatDate(dateStr) {
+  if (!dateStr) return '--';
+  const d = new Date(dateStr);
+  return d.toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+}
+
+function addDays(date, days) {
+  const d = new Date(date);
+  d.setDate(d.getDate() + days);
+  return d.toISOString().split('T')[0];
+}
+
+function getDaysUntil(dateStr) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const target = new Date(dateStr);
+  target.setHours(0, 0, 0, 0);
+  return Math.ceil((target - today) / (1000 * 60 * 60 * 24));
+}
+
+function animateCountUp(el, target) {
+  const start = parseInt(el.dataset.value) || 0;
+  const duration = 800;
+  const startTime = performance.now();
+  
+  function update(currentTime) {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    const easeOut = 1 - Math.pow(1 - progress, 3);
+    const current = Math.floor(start + (target - start) * easeOut);
+    el.textContent = typeof target === 'string' ? target : current;
+    el.dataset.value = current;
+    
+    if (progress < 1) requestAnimationFrame(update);
+  }
+  requestAnimationFrame(update);
+}
+
+function showToast(title, message, type = 'success') {
+  const toast = document.createElement('div');
+  toast.className = `toast ${type}`;
+  const icons = {
+    success: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>',
+    error: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>',
+    info: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>'
+  };
+  toast.innerHTML = `
+    <div class="toast-icon">${icons[type]}</div>
+    <div class="toast-content">
+      <div class="toast-title">${title}</div>
+      <div class="toast-message">${message}</div>
+    </div>
+  `;
+  $('#toastContainer').appendChild(toast);
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateX(100px)';
+    setTimeout(() => toast.remove(), 300);
+  }, 3000);
+}
+
+function updateISTTime() {
+  const now = new Date();
+  const ist = new Date(now.getTime() + state.istOffset);
+  const timeStr = ist.toUTCString().split(' ')[4];
+  $('#istTime').textContent = `${timeStr} IST`;
+}
+
+// Data Layer
+async function loadData() {
+  if (state.isOnline && state.supabase) {
+    try {
+      const [customers, emis] = await Promise.all([
+        state.supabase.from('customers').select('*').execute(),
+        state.supabase.from('emis').select('*').execute()
+      ]);
+      state.customers = customers;
+      state.emis = emis;
+      localStorage.setItem('blm_data', JSON.stringify({ customers, emis }));
+    } catch (e) {
+      console.error('Failed to fetch from Supabase:', e);
+      showToast('Sync Error', 'Using offline data', 'error');
+      loadFromLocalStorage();
+    }
+  } else {
+    loadFromLocalStorage();
+  }
+}
+
+function loadFromLocalStorage() {
+  const data = localStorage.getItem('blm_data');
+  if (data) {
+    const parsed = JSON.parse(data);
+    state.customers = parsed.customers || [];
+    state.emis = parsed.emis || [];
+  }
+}
+
+function saveToLocalStorage() {
+  localStorage.setItem('blm_data', JSON.stringify({
+    customers: state.customers,
+    emis: state.emis
+  }));
+}
+
+async function saveCustomer(customerData) {
+  if (state.isOnline && state.supabase) {
+    try {
+      if (state.editingCustomerId) {
+        await state.supabase.from('customers').update(customerData).eq('id', state.editingCustomerId).execute();
+      } else {
+        const result = await state.supabase.from('customers').insert([customerData]).execute();
+        const newCustomer = result[0];
+        
+        // Generate EMIs
+        const emiAmount = Math.round(customerData.loan_amount / customerData.total_emis);
+        const emisData = [];
+        for (let i = 1; i <= customerData.total_emis; i++) {
+          emisData.push({
+            customer_id: newCustomer.id,
+            emi_no: i,
+            due_date: addDays(customerData.loan_date, 30 * i),
+            amount: i === customerData.total_emis ? customerData.loan_amount - (emiAmount * (customerData.total_emis - 1)) : emiAmount,
+            status: 'upcoming'
+          });
+        }
+        await state.supabase.from('emis').insert(emisData).execute();
+      }
+      await loadData();
+      showToast('Success', 'Customer saved to cloud', 'success');
+      return true;
+    } catch (e) {
+      showToast('Error', e.message, 'error');
+      return false;
+    }
+  } else {
+    if (state.editingCustomerId) {
+      const idx = state.customers.findIndex(c => c.id === state.editingCustomerId);
+      state.customers[idx] = { ...state.customers[idx], ...customerData };
+    } else {
+      const newCustomer = {
+        id: crypto.randomUUID(),
+        ...customerData,
+        created_at: new Date().toISOString()
+      };
+      state.customers.push(newCustomer);
+      
+      // Generate EMIs
+      const emiAmount = Math.round(customerData.loan_amount / customerData.total_emis);
+      for (let i = 1; i <= customerData.total_emis; i++) {
+        state.emis.push({
+          id: crypto.randomUUID(),
+          customer_id: newCustomer.id,
+          emi_no: i,
+          due_date: addDays(customerData.loan_date, 30 * i),
+          amount: i === customerData.total_emis ? customerData.loan_amount - (emiAmount * (customerData.total_emis - 1)) : emiAmount,
+          status: 'upcoming',
+          paid_date: null,
+          paid_amount: null,
+          payment_mode: null,
+          created_at: new Date().toISOString()
+        });
+      }
+    }
+    saveToLocalStorage();
+    showToast('Success', 'Customer saved offline', 'success');
+    return true;
+  }
+}
+
+async function deleteCustomer(customerId) {
+  if (!confirm('Delete this customer and all EMIs?')) return;
+  
+  if (state.isOnline && state.supabase) {
+    try {
+      await state.supabase.from('customers').delete().eq('id', customerId).execute();
+      await loadData();
+      showToast('Success', 'Customer deleted', 'success');
+    } catch (e) {
+      showToast('Error', e.message, 'error');
+    }
+  } else {
+    state.customers = state.customers.filter(c => c.id !== customerId);
+    state.emis = state.emis.filter(e => e.customer_id !== customerId);
+    saveToLocalStorage();
+    showToast('Success', 'Customer deleted', 'success');
+  }
+  render();
+}
+
+async function markEMIPaid(emiId, paidAmount, paymentMode, paymentDate, notes) {
+  const emi = state.emis.find(e => e.id === emiId);
+  if (!emi) return;
+  
+  emi.status = 'paid';
+  emi.paid_date = paymentDate;
+  emi.paid_amount = paidAmount;
+  emi.payment_mode = paymentMode;
+  if (notes) emi.notes = notes;
+  
+  if (state.isOnline && state.supabase) {
+    try {
+      await state.supabase.from('emis').update({ 
+        status: 'paid', 
+        paid_date: paymentDate,
+        paid_amount: paidAmount,
+        payment_mode: paymentMode
+      }).eq('id', emiId).execute();
+      await loadData();
+    } catch (e) {
+      showToast('Error', e.message, 'error');
+      return;
+    }
+  } else {
+    saveToLocalStorage();
+  }
+  
+  showToast('Payment Recorded', `EMI #${emi.emi_no} marked as paid`, 'success');
+  render();
+  if (state.viewScheduleCustomerId) {
+    openEmiSchedule(state.viewScheduleCustomerId);
+  }
+}
+
+// Rendering
+function calculateStats() {
+  const totalCustomers = state.customers.length;
+  let totalLoanAmount = 0;
+  let totalCollected = 0;
+  let totalPending = 0;
+  
+  state.customers.forEach(customer => {
+    totalLoanAmount += parseFloat(customer.loan_amount);
+    const customerEmis = state.emis.filter(e => e.customer_id === customer.id);
+    customerEmis.forEach(emi => {
+      if (emi.status === 'paid') {
+        totalCollected += parseFloat(emi.paid_amount || emi.amount);
+      } else {
+        totalPending += parseFloat(emi.amount);
+      }
+    });
+  });
+  
+  animateCountUp($('#totalCustomers'), totalCustomers);
+  $('#totalLoanAmount').textContent = formatCurrency(totalLoanAmount);
+  $('#totalCollected').textContent = formatCurrency(totalCollected);
+  $('#totalPending').textContent = formatCurrency(totalPending);
+}
+
+function getCustomerStatus(customer) {
+  const customerEmis = state.emis.filter(e => e.customer_id === customer.id && e.status !== 'paid');
+  if (customerEmis.length === 0) return { type: 'paid', text: 'Completed', days: 999 };
+  
+  customerEmis.sort((a, b) => new Date(a.due_date) - new Date(b.due_date));
+  const nextEmi = customerEmis[0];
+  const days = getDaysUntil(nextEmi.due_date);
+  
+  if (days < 0) return { type: 'overdue', text: `Overdue ${Math.abs(days)}d`, days };
+  if (days <= 3) return { type: 'due-soon', text: `Due in ${days}d`, days };
+  return { type: 'upcoming', text: `Due in ${days}d`, days };
+}
+
+function getFilteredCustomers() {
+  let filtered = [...state.customers];
+  
+  if (state.searchQuery) {
+    const q = state.searchQuery.toLowerCase();
+    filtered = filtered.filter(c => 
+      c.name.toLowerCase().includes(q) ||
+      c.vehicle_name.toLowerCase().includes(q) ||
+      c.vehicle_number.toLowerCase().includes(q) ||
+      c.mobile.includes(q)
+    );
+  }
+  
+  filtered.sort((a, b) => {
+    if (state.sortBy === 'loanAmount') {
+      return b.loan_amount - a.loan_amount;
+    } else if (state.sortBy === 'dueAmount') {
+      const aPending = state.emis.filter(e => e.customer_id === a.id && e.status !== 'paid').reduce((sum, e) => sum + e.amount, 0);
+      const bPending = state.emis.filter(e => e.customer_id === b.id && e.status !== 'paid').reduce((sum, e) => sum + e.amount, 0);
+      return bPending - aPending;
+    } else {
+      const aStatus = getCustomerStatus(a);
+      const bStatus = getCustomerStatus(b);
+      return aStatus.days - bStatus.days;
+    }
+  });
+  
+  return filtered;
+}
+
+function renderCustomerCard(customer) {
+  const customerEmis = state.emis.filter(e => e.customer_id === customer.id);
+  customerEmis.sort((a, b) => a.emi_no - b.emi_no);
+  
+  const paidEmis = customerEmis.filter(e => e.status === 'paid').length;
+  const totalEmis = customer.total_emis;
+  const progress = (paidEmis / totalEmis) * 100;
+  
+  const status = getCustomerStatus(customer);
+  const nextEmi = customerEmis.find(e => e.status !== 'paid');
+  const nextEmiDate = nextEmi?.due_date || null;
+  const nextEmiAmount = nextEmi?.amount || 0;
+  const dueAmount = customerEmis.filter(e => e.status !== 'paid').reduce((sum, e) => sum + parseFloat(e.amount), 0);
+  
+  const card = document.createElement('div');
+  card.className = 'customer-card';
+  card.innerHTML = `
+    <div class="customer-top">
+      <div class="customer-primary-info">
+        <div class="customer-name-link" onclick="window.openEmiSchedule('${customer.id}')">${customer.name}</div>
+        <div class="customer-father">S/o ${customer.father_name}</div>
+        <div class="customer-mobile">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 0 0 1-8.63-3.07 19.5 0 0 1-6-6 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+          </svg>
+          ${customer.mobile}
+        </div>
+      </div>
+      <span class="badge ${status.type}">${status.text}</span>
+    </div>
+    
+    <div class="detail-grid">
+      <div class="detail-item">
+        <div class="detail-label">Address</div>
+        <div class="detail-value">${customer.address}</div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-label">Vehicle</div>
+        <div class="detail-value">${customer.vehicle_name} - ${customer.vehicle_number}</div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-label">Loan Date</div>
+        <div class="detail-value">${formatDate(customer.loan_date)}</div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-label">Due Date</div>
+        <div class="detail-value">${formatCurrency(customer.loan_amount)}</div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-label">Next EMI Date</div>
+        <div class="detail-value">
+          ${nextEmiDate ? formatDate(nextEmiDate) : 'Completed'}
+          ${nextEmiDate ? `<span class="badge next-emi-badge ${status.type}">${status.text}</span>` : ''}
+        </div>
+      </div>
+      <div class="detail-item">
+        <div class="detail-label">EMI Amount</div>
+        <div class="detail-value">${nextEmiAmount ? formatCurrency(nextEmiAmount) : '--'}</div>
+      </div>
+    </div>
+    
+    <div class="progress-section">
+      <div class="progress-header">
+        <span style="font-weight: 600;">Progress: ${paidEmis} / ${totalEmis} EMIs Paid</span>
+        <span style="color: var(--text-light);">${Math.round(progress)}%</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" style="width: ${progress}%"></div>
+      </div>
+      <div style="margin-top: 0.5rem; display: flex; justify-content: space-between; font-size: 0.875rem;">
+        <span>Pending: <strong>${formatCurrency(dueAmount)}</strong></span>
+      </div>
+    </div>
+    
+    <div class="customer-actions" style="margin-bottom: 0.75rem;">
+      <button class="icon-btn" onclick="window.callCustomer('${customer.mobile}')" title="Call">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+        </svg>
+      </button>
+      <button class="icon-btn" onclick="window.editCustomer('${customer.id}')" title="Edit">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+          <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+        </svg>
+      </button>
+      <button class="icon-btn" onclick="window.deleteCustomer('${customer.id}')" title="Delete">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="3 6 5 6 21 6"></polyline>
+          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+        </svg>
+      </button>
+    </div>
+    
+    <button class="btn btn-primary btn-full" onclick="window.openEmiSchedule('${customer.id}')">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+        <line x1="16" y1="2" x2="16" y2="6"></line>
+        <line x1="8" y1="2" x2="8" y2="6"></line>
+        <line x1="3" y1="10" x2="21" y2="10"></line>
+      </svg>
+      View EMI Schedule
+    </button>
+  `;
+  
+  return card;
+}
+
+function render() {
+  const grid = $('#customersGrid');
+  const filtered = getFilteredCustomers();
+  
+  if (filtered.length === 0) {
+    grid.innerHTML = `
+      <div class="empty-state">
+        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="9" cy="7" r="4"></circle>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+          <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+        </svg>
+        <h3>No customers found</h3>
+        <p style="color: var(--text-light); margin-top: 0.5rem;">Add a customer to get started</p>
+      </div>
+    `;
+  } else {
+    grid.innerHTML = '';
+    filtered.forEach(customer => {
+      grid.appendChild(renderCustomerCard(customer));
+    });
+  }
+  
+  calculateStats();
+}
+
+function openEmiSchedule(customerId) {
+  const customer = state.customers.find(c => c.id === customerId);
+  if (!customer) return;
+  
+  state.viewScheduleCustomerId = customerId;
+  const customerEmis = state.emis.filter(e => e.customer_id === customerId);
+  customerEmis.sort((a, b) => a.emi_no - b.emi_no);
+  
+  $('#emiScheduleTitle').textContent = `EMI Schedule - ${customer.name}`;
+  
+  const tableHtml = `
+    <div class="emi-table-container">
+      <table class="emi-table">
+        <thead>
+          <tr>
+            <th>EMI No</th>
+            <th>Due Date</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Paid Date</th>
+            <th>Paid Amount</th>
+            <th>Mode</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${customerEmis.map(emi => `
+            <tr class="${emi.status === 'paid' ? 'paid' : ''}">
+              <td><strong>#${emi.emi_no}</strong></td>
+              <td>${formatDate(emi.due_date)}</td>
+              <td>${formatCurrency(emi.amount)}</td>
+              <td><span class="badge ${emi.status === 'paid' ? 'paid' : 'upcoming'}">${emi.status === 'paid' ? 'Paid' : 'Due'}</span></td>
+              <td>${emi.paid_date ? formatDate(emi.paid_date) : '--'}</td>
+              <td>${emi.paid_amount ? formatCurrency(emi.paid_amount) : '--'}</td>
+              <td>${emi.payment_mode || '--'}</td>
+              <td>
+                ${emi.status !== 'paid' ? `
+                  <button class="btn btn-primary" style="padding: 0.375rem 0.75rem; font-size: 0.75rem;" 
+                    onclick="window.openPaymentModal('${emi.id}', '${customerId}', ${emi.amount})">Mark Paid</button>
+                ` : '<span style="color: var(--success);">✓</span>'}
+              </td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+    <div class="notes-box">
+      <label style="font-size: 0.875rem; font-weight: 600; margin-bottom: 0.5rem; display: block;">Customer Notes</label>
+      <textarea placeholder="Add notes..." onblur="window.updateCustomerNotes('${customerId}', this.value)">${customer.notes || ''}</textarea>
+    </div>
+  `;
+  
+  $('#emiScheduleContent').innerHTML = tableHtml;
+  $('#emiScheduleModal').classList.add('active');
+}
+
+function openPaymentModal(emiId, customerId, emiAmount) {
+  $('#paymentEmiId').value = emiId;
+  $('#paymentCustomerId').value = customerId;
+  $('#paidAmount').value = emiAmount;
+  $('#paymentDate').value = new Date().toISOString().split('T')[0];
+  $('#paymentMode').value = '';
+  $('#paymentNotes').value = '';
+  $('#paymentModal').classList.add('active');
+}
+
+// Event Handlers
+$('#addCustomerBtn').addEventListener('click', () => {
+  state.editingCustomerId = null;
+  $('#modalTitle').textContent = 'Add Customer';
+  $('#customerForm').reset();
+  $('#loanDate').value = new Date().toISOString().split('T')[0];
+  $('#customerModal').classList.add('active');
+});
+
+$('#closeCustomerBtn').addEventListener('click', () => {
+  $('#customerModal').classList.remove('active');
+});
+
+$('#cancelCustomerBtn').addEventListener('click', () => {
+  $('#customerModal').classList.remove('active');
+});
+
+$('#customerForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  
+  const customerData = {
+    name: $('#customerName').value.trim(),
+    father_name: $('#fatherName').value.trim(),
+    mobile: $('#mobile').value.trim(),
+    address: $('#address').value.trim(),
+    vehicle_name: $('#vehicleName').value.trim(),
+    vehicle_number: $('#vehicleNumber').value.trim(),
+    loan_amount: parseFloat($('#loanAmount').value),
+    loan_date: $('#loanDate').value,
+    total_emis: parseInt($('#totalEmis').value),
+    notes: $('#customerNotes').value.trim()
+  };
+  
+  // Validation
+  if (!customerData.name || !customerData.father_name || !customerData.mobile || !customerData.address || 
+      !customerData.vehicle_name || !customerData.vehicle_number || !customerData.loan_amount || 
+      !customerData.loan_date || !customerData.total_emis) {
+    showToast('Validation Error', 'Please fill all required fields', 'error');
+    return;
+  }
+  
+  if (!/^[0-9]{10}$/.test(customerData.mobile)) {
+    showToast('Validation Error', 'Mobile must be 10 digits', 'error');
+    return;
+  }
+  
+  const success = await saveCustomer(customerData);
+  if (success) {
+    $('#customerModal').classList.remove('active');
+    render();
+  }
+});
+
+$('#settingsBtn').addEventListener('click', () => {
+  $('#supabaseUrl').value = localStorage.getItem('supabase_url') || '';
+  $('#supabaseKey').value = localStorage.getItem('supabase_key') || '';
+  $('#settingsModal').classList.add('active');
+});
+
+$('#closeSettingsBtn').addEventListener('click', () => {
+  $('#settingsModal').classList.remove('active');
+});
+
+$('#testConnectionBtn').addEventListener('click', async () => {
+  const url = $('#supabaseUrl').value.trim();
+  const key = $('#supabaseKey').value.trim();
+  
+  if (!url || !key) {
+    showToast('Error', 'Please enter URL and Key', 'error');
+    return;
+  }
+  
+  $('#testConnectionBtn').innerHTML = '<div class="spinner"></div> Testing...';
+  
+  try {
+    const client = new SupabaseClient(url, key);
+    await client.from('customers').select('id').execute();
+    showToast('Success', 'Connection successful!', 'success');
+  } catch (e) {
+    showToast('Error', 'Connection failed: ' + e.message, 'error');
+  } finally {
+    $('#testConnectionBtn').innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg> Test Connection';
+  }
+});
+
+$('#connectBtn').addEventListener('click', async () => {
+  const url = $('#supabaseUrl').value.trim();
+  const key = $('#supabaseKey').value.trim();
+  
+  if (!url || !key) {
+    showToast('Error', 'Please enter URL and Key', 'error');
+    return;
+  }
+  
+  try {
+    state.supabase = new SupabaseClient(url, key);
+    await state.supabase.from('customers').select('id').execute();
+    
+    localStorage.setItem('supabase_url', url);
+    localStorage.setItem('supabase_key', key);
+    state.isOnline = true;
+    
+    $('#connectionStatus').className = 'status-badge online';
+    $('#connectionStatus span:last-child').textContent = 'Online';
+    
+    showToast('Success', 'Connected to Supabase', 'success');
+    $('#settingsModal').classList.remove('active');
+    
+    await loadData();
+    render();
+  } catch (e) {
+    showToast('Error', 'Failed to connect: ' + e.message, 'error');
+  }
+});
+
+$('#searchInput').addEventListener('input', (e) => {
+  state.searchQuery = e.target.value;
+  render();
+});
+
+$('#sortSelect').addEventListener('change', (e) => {
+  state.sortBy = e.target.value;
+  render();
+});
+
+$('#clearBtn').addEventListener('click', () => {
+  $('#searchInput').value = '';
+  state.searchQuery = '';
+  state.sortBy = 'nextEmiDate';
+  $('#sortSelect').value = 'nextEmiDate';
+  render();
+  showToast('Cleared', 'Filters reset', 'info');
+});
+
+$('#closeEmiScheduleBtn').addEventListener('click', () => {
+  $('#emiScheduleModal').classList.remove('active');
+  state.viewScheduleCustomerId = null;
+});
+
+$('#closePaymentBtn').addEventListener('click', () => {
+  $('#paymentModal').classList.remove('active');
+});
+
+$('#cancelPaymentBtn').addEventListener('click', () => {
+  $('#paymentModal').classList.remove('active');
+});
+
+$('#paymentForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  
+  const emiId = $('#paymentEmiId').value;
+  const customerId = $('#paymentCustomerId').value;
+  const paidAmount = parseFloat($('#paidAmount').value);
+  const paymentMode = $('#paymentMode').value;
+  const paymentDate = $('#paymentDate').value;
+  const notes = $('#paymentNotes').value.trim();
+  
+  if (!paidAmount || !paymentMode || !paymentDate) {
+    showToast('Validation Error', 'Please fill all required fields', 'error');
+    return;
+  }
+  
+  await markEMIPaid(emiId, paidAmount, paymentMode, paymentDate, notes);
+  $('#paymentModal').classList.remove('active');
+});
+
+// Global functions for inline onclick
+window.callCustomer = (mobile) => {
+  if (confirm(`Call ${mobile}?`)) {
+    window.location.href = `tel:${mobile}`;
+  }
+};
+
+window.editCustomer = (id) => {
+  const customer = state.customers.find(c => c.id === id);
+  if (!customer) return;
+  
+  state.editingCustomerId = id;
+  $('#modalTitle').textContent = 'Edit Customer';
+  $('#customerName').value = customer.name;
+  $('#fatherName').value = customer.father_name;
+  $('#mobile').value = customer.mobile;
+  $('#address').value = customer.address;
+  $('#vehicleName').value = customer.vehicle_name;
+  $('#vehicleNumber').value = customer.vehicle_number;
+  $('#loanAmount').value = customer.loan_amount;
+  $('#loanDate').value = customer.loan_date;
+  $('#totalEmis').value = customer.total_emis;
+  $('#customerNotes').value = customer.notes || '';
+  $('#customerModal').classList.add('active');
+};
+
+window.deleteCustomer = deleteCustomer;
+window.openEmiSchedule = openEmiSchedule;
+window.openPaymentModal = openPaymentModal;
+window.updateCustomerNotes = async (customerId, notes) => {
+  const customer = state.customers.find(c => c.id === customerId);
+  if (!customer) return;
+  
+  customer.notes = notes;
+  
+  if (state.isOnline && state.supabase) {
+    try {
+      await state.supabase.from('customers').update({ notes }).eq('id', customerId).execute();
+    } catch (e) {
+      showToast('Error', e.message, 'error');
+    }
+  } else {
+    saveToLocalStorage();
+  }
+};
+
+// Initialize
+async function init() {
+  updateISTTime();
+  setInterval(updateISTTime, 1000);
+  
+  const savedUrl = localStorage.getItem('supabase_url');
+  const savedKey = localStorage.getItem('supabase_key');
+  
+  if (savedUrl && savedKey) {
+    try {
+      state.supabase = new SupabaseClient(savedUrl, savedKey);
+      await state.supabase.from('customers').select('id').execute();
+      state.isOnline = true;
+      $('#connectionStatus').className = 'status-badge online';
+      $('#connectionStatus span:last-child').textContent = 'Online';
+    } catch (e) {
+      console.log('Auto-connect failed, using offline mode');
+    }
+  }
+  
+  await loadData();
+  render();
+  
+  // Theme transition
+  document.body.style.opacity = '0';
+  setTimeout(() => {
+    document.body.style.transition = 'opacity 0.3s';
+    document.body.style.opacity = '1';
+  }, 50);
+}
+
+init();
+</script>
+<script>(function(){document.addEventListener("click",function(e){var a=e.target.closest("[data-product-id]");if(!a)return;e.preventDefault();var pid=a.getAttribute("data-product-id");if(pid)parent.postMessage({type:"ecto-artifact-link-click",productId:pid},"*")})})();</script>
+</body>
+</html>
